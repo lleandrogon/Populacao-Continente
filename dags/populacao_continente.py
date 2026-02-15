@@ -4,6 +4,8 @@ from airflow.providers.standard.operators.python import PythonOperator
 from datetime import datetime
 import pendulum
 
+from src.africa.extract import *
+from src.africa.transform import *
 from src.north_america.extract import *
 from src.north_america.transform import *
 from src.south_america.extract import *
@@ -19,6 +21,18 @@ dag = DAG(
     },
     catchup = False,
     tags = ["populacao", "continente"]
+)
+
+e_africa = PythonOperator(
+    task_id = "extract_africa",
+    python_callable = extract_africa,
+    dag = dag
+)
+
+t_africa = PythonOperator(
+    task_id = "transform_africa",
+    python_callable = transform_africa,
+    dag = dag
 )
 
 e_north_america = PythonOperator(
@@ -44,6 +58,8 @@ t_south_america = PythonOperator(
     python_callable = transform_south_america,
     dag = dag
 )
+
+e_africa >> t_africa
 
 e_north_america >> t_north_america
 
