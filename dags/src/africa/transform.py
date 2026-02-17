@@ -34,6 +34,8 @@ def transform_africa(**kwargs):
 
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
 
+    df["date"] = df["date"].fillna("2023-07-01")
+
     df["continent"] = "Africa"
 
     df = df[

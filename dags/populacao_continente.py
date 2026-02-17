@@ -7,6 +7,7 @@ import pendulum
 
 from src.africa.extract import *
 from src.africa.transform import *
+from src.africa.load import *
 from src.asia.extract import *
 from src.asia.transform import *
 from src.caribbean.extract import *
@@ -41,6 +42,12 @@ e_africa = PythonOperator(
 t_africa = PythonOperator(
     task_id = "transform_africa",
     python_callable = transform_africa,
+    dag = dag
+)
+
+l_africa = PythonOperator(
+    task_id = "load_africa",
+    python_callable = load_africa,
     dag = dag
 )
 
@@ -145,4 +152,6 @@ e_south_america >> t_south_america
     t_north_america,
     t_oceania,
     t_south_america
-] >> ct
+] >> ct >> [
+    l_africa
+]
