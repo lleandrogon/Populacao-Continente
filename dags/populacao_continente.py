@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
+from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
 from datetime import datetime
 import pendulum
@@ -115,6 +116,13 @@ t_south_america = PythonOperator(
     dag = dag
 )
 
+ct = SQLExecuteQueryOperator(
+    task_id = "create_table",
+    conn_id = "continentes",
+    sql = "src/sql/create_table.sql",
+    dag = dag
+)
+
 e_africa >> t_africa
 
 e_asia >> t_asia
@@ -128,3 +136,13 @@ e_north_america >> t_north_america
 e_oceania >> t_oceania
 
 e_south_america >> t_south_america
+
+[
+    t_africa,
+    t_asia,
+    t_caribbean,
+    t_europe,
+    t_north_america,
+    t_oceania,
+    t_south_america
+] >> ct

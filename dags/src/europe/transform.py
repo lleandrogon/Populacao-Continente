@@ -29,6 +29,8 @@ def transform_europe(**kwargs):
     
     df["population"] = df["population"].str.replace(',', '').astype(int)
 
+    df["porcent_total"] = ((df["population"] / df["population"].sum()) * 100).round(4)
+
     df["date"] = df["date"].str.replace(r'\[.*\]', '', regex=True)
 
     df["date"] = df["date"].apply(
@@ -38,5 +40,18 @@ def transform_europe(**kwargs):
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
 
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
+
+    df["continent"] = "Europe"
+
+    df = df[
+        [
+            "continent",
+            "country",
+            "porcent_total",
+            "porcent_change",
+            "population",
+            "date"
+        ]
+    ]
 
     return df

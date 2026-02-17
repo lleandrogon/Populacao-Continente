@@ -22,8 +22,8 @@ def transform_asia(**kwargs):
     df["porcent_change"] = df["porcent_change"].str.replace('%', '').astype(float) / 100
 
     df = df.drop(columns = [
-    "asia_population",
-    "total_population"
+        "asia_population",
+        "total_population"
     ])
 
     df["population"] = df["population"].str.replace(',', '').astype(int)
@@ -49,5 +49,18 @@ def transform_asia(**kwargs):
     df["date"] = df["date_parsed"].dt.strftime("%Y-%m-%d")
 
     df.drop(columns=["date_parsed"], inplace = True)
+
+    df["continent"] = "Asia"
+
+    df = df[
+        [
+            "continent",
+            "country",
+            "porcent_total",
+            "porcent_change",
+            "population",
+            "date"
+        ]
+    ]
 
     return df

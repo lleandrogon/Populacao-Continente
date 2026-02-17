@@ -34,4 +34,17 @@ def transform_caribbean(**kwargs):
 
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
 
+    df["continent"] = "Caribbean"
+
+    df = df[
+        [
+            "continent",
+            "country",
+            "porcent_total",
+            "porcent_change",
+            "population",
+            "date"
+        ]
+    ]
+
     return df

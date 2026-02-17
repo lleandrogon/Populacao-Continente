@@ -32,4 +32,17 @@ def transform_north_america(**kwargs):
     df["date"] = pd.to_datetime(df["date"], format = "%d %b %Y")
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
 
+    df["continent"] = "North America"
+
+    df = df[
+        [
+            "continent",
+            "country",
+            "porcent_total",
+            "porcent_change",
+            "population",
+            "date"
+        ]
+    ]
+
     return df

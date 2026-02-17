@@ -22,6 +22,8 @@ def transform_africa(**kwargs):
         "africa_population"
     ])
 
+    df["population"] = df["population"].str.replace(',', '').astype(int)
+
     df["date"] = df["date"].str.replace(r'\[.*\]', '', regex=True)
 
     df["date"] = df["date"].apply(
@@ -31,5 +33,18 @@ def transform_africa(**kwargs):
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
 
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
+
+    df["continent"] = "Africa"
+
+    df = df[
+        [
+            "continent",
+            "country",
+            "porcent_total",
+            "porcent_change",
+            "population",
+            "date"
+        ]
+    ]
 
     return df
