@@ -8,6 +8,10 @@ from src.africa.extract import *
 from src.africa.transform import *
 from src.asia.extract import *
 from src.asia.transform import *
+from src.caribbean.extract import *
+from src.caribbean.transform import *
+from src.europe.extract import *
+from src.europe.transform import *
 from src.north_america.extract import *
 from src.north_america.transform import *
 from src.south_america.extract import *
@@ -49,6 +53,30 @@ t_asia = PythonOperator(
     dag = dag
 )
 
+e_caribbean = PythonOperator(
+    task_id = "extract_caribbean",
+    python_callable = extract_caribbean,
+    dag = dag
+)
+
+t_caribbean = PythonOperator(
+    task_id = "transform_caribbean",
+    python_callable = transform_caribbean,
+    dag = dag
+)
+
+e_europe = PythonOperator(
+    task_id = "extract_europe",
+    python_callable = extract_europe,
+    dag = dag
+)
+
+t_europe = PythonOperator(
+    task_id = "transform_europe",
+    python_callable = transform_europe,
+    dag = dag
+)
+
 e_north_america = PythonOperator(
     task_id = "extract_north_america",
     python_callable = extract_north_america,
@@ -76,6 +104,10 @@ t_south_america = PythonOperator(
 e_africa >> t_africa
 
 e_asia >> t_asia
+
+e_caribbean >> t_caribbean
+
+e_europe >> t_europe
 
 e_north_america >> t_north_america
 
