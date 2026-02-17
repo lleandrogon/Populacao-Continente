@@ -37,7 +37,7 @@ def transform_europe(**kwargs):
         lambda x: "1 " + x if pd.notna(x) and re.match(r"^[A-Za-z]{3} \d{4}$", x.strip()) else x
     )
 
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df["date"] = pd.to_datetime(df["date"], errors = "coerce")
 
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
 
