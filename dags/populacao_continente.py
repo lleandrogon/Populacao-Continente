@@ -10,16 +10,22 @@ from src.africa.transform import *
 from src.africa.load import *
 from src.asia.extract import *
 from src.asia.transform import *
+from src.asia.load import *
 from src.caribbean.extract import *
 from src.caribbean.transform import *
+from src.caribbean.load import *
 from src.europe.extract import *
 from src.europe.transform import *
+from src.europe.load import *
 from src.north_america.extract import *
 from src.north_america.transform import *
+from src.north_america.load import *
 from src.oceania.extract import *
 from src.oceania.transform import *
+from src.oceania.load import *
 from src.south_america.extract import *
 from src.south_america.transform import *
+from src.south_america.load import *
 
 dag = DAG(
     dag_id = "populacao_continente",
@@ -63,6 +69,12 @@ t_asia = PythonOperator(
     dag = dag
 )
 
+l_asia = PythonOperator(
+    task_id = "load_asia",
+    python_callable = load_asia,
+    dag = dag
+)
+
 e_caribbean = PythonOperator(
     task_id = "extract_caribbean",
     python_callable = extract_caribbean,
@@ -72,6 +84,12 @@ e_caribbean = PythonOperator(
 t_caribbean = PythonOperator(
     task_id = "transform_caribbean",
     python_callable = transform_caribbean,
+    dag = dag
+)
+
+l_caribbean = PythonOperator(
+    task_id = "load_caribbean",
+    python_callable = load_caribbean,
     dag = dag
 )
 
@@ -87,6 +105,12 @@ t_europe = PythonOperator(
     dag = dag
 )
 
+l_europe = PythonOperator(
+    task_id = "load_europe",
+    python_callable = load_europe,
+    dag = dag
+)
+
 e_north_america = PythonOperator(
     task_id = "extract_north_america",
     python_callable = extract_north_america,
@@ -96,6 +120,12 @@ e_north_america = PythonOperator(
 t_north_america = PythonOperator(
     task_id = "transform_north_america",
     python_callable = transform_north_america,
+    dag = dag
+)
+
+l_north_america = PythonOperator(
+    task_id = "load_north_america",
+    python_callable = load_north_america,
     dag = dag
 )
 
@@ -111,6 +141,12 @@ t_oceania = PythonOperator(
     dag = dag
 )
 
+l_oceania = PythonOperator(
+    task_id = "load_oceania",
+    python_callable = load_oceania,
+    dag = dag
+)
+
 e_south_america = PythonOperator(
     task_id = "extract_south_america",
     python_callable = extract_south_america,
@@ -120,6 +156,12 @@ e_south_america = PythonOperator(
 t_south_america = PythonOperator(
     task_id = "transform_south_america",
     python_callable = transform_south_america,
+    dag = dag
+)
+
+l_south_america = PythonOperator(
+    task_id = "load_south_america",
+    python_callable = load_south_america,
     dag = dag
 )
 
@@ -153,5 +195,11 @@ e_south_america >> t_south_america
     t_oceania,
     t_south_america
 ] >> ct >> [
-    l_africa
+    l_africa,
+    l_asia,
+    l_caribbean,
+    l_europe,
+    l_north_america,
+    l_oceania,
+    l_south_america
 ]

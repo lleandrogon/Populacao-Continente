@@ -1,7 +1,7 @@
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
-def load_africa(**kwargs):
-    df = kwargs["ti"].xcom_pull(task_ids = "transform_africa")
+def load_north_america(**kwargs):
+    df = kwargs["ti"].xcom_pull(task_ids = "transform_north_america")
 
     hook = PostgresHook(postgres_conn_id = "continentes")
 
