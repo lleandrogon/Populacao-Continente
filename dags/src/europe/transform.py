@@ -27,6 +27,8 @@ def transform_europe(**kwargs):
         .replace('-', np.nan) \
         .astype(float) / 100
     
+    df["porcent_change"] = df["porcent_change"].replace({np.nan: None})
+    
     df["population"] = df["population"].str.replace(',', '').astype(int)
 
     df["porcent_total"] = ((df["population"] / df["population"].sum()) * 100).round(4)
