@@ -19,13 +19,15 @@ def transform_europe(**kwargs):
         "un_estimate"
     ])
 
+    df["porcent_change"] = df["porcent_change"].replace({np.nan: None})
+
     df["porcent_change"] = df["porcent_change"] \
         .str.replace('%', '') \
         .str.replace('−', '-') \
         .str.strip() \
         .replace('', np.nan) \
         .replace('-', np.nan) \
-        .astype(float) / 100
+        .pipe(pd.to_numeric, errors = "coerce")
     
     df["porcent_change"] = df["porcent_change"].replace({np.nan: None})
     
@@ -55,5 +57,7 @@ def transform_europe(**kwargs):
             "date"
         ]
     ]
+
+    df = df.replace({np.nan: None})
 
     return df

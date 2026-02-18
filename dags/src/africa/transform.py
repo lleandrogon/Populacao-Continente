@@ -16,9 +16,13 @@ def transform_africa(**kwargs):
 
     df = df[df["country"] != "Total"]
 
-    df["porcent_total"] = df["porcent_total"].str.replace('%', '').astype(float) / 100
-    df["porcent_change"] = df["porcent_change"].str.replace('%', '').astype(float) / 100
-    df["porcent_change"] = df["porcent_change"].replace({np.nan: None})
+    df["porcent_total"] = df["porcent_total"] \
+        .str.replace('%', '') \
+        .pipe(pd.to_numeric, errors = "coerce")
+    
+    df["porcent_change"] = df["porcent_change"] \
+        .str.replace('%', '') \
+        .pipe(pd.to_numeric, errors = "coerce")
 
     df = df.drop(columns = [
         "africa_population"

@@ -1,4 +1,5 @@
 from airflow.providers.postgres.hooks.postgres import PostgresHook
+import pandas as pd
 
 def load_europe(**kwargs):
     df = kwargs["ti"].xcom_pull(task_ids = "transform_europe")
@@ -19,6 +20,8 @@ def load_europe(**kwargs):
             porcent_total = EXCLUDED.porcent_total,
             porcent_change = EXCLUDED.porcent_change;
     """
+
+    df = df.astype(object).where(pd.notna(df), None)
 
     for row in df[
         [
